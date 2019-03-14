@@ -1,23 +1,24 @@
 <template lang="pug">
 .question
     img.bg(src='/static/imgs/test.jpg')
-    .qs_content(v-if='questions.length > 0')
+    scroll-view.qs_content(v-if='questions.length > 0' scroll-y)
         div(v-if='!startqs')
             p.title 温馨提示
+            p 《更愿意和谁一个team》
             .warn_tag 为了更好对的制定工作计划，提高大家的协作效率，请回答以下问题
         div(v-else)
-            p.title {{questions[currentIndex].title}}
+            p.title {{questions[currentIndex].title}} (选{{questions[currentIndex].limit_number}}人,共{{questions[currentIndex].option.length}}人)
             .response(
                 v-for="(item,index) in questions[currentIndex].option" 
                 :key='index'
-                @click="selectAnswer(index)"
+                @click="selectCheckbox(index)"
                 )
                 img(v-if='item.select' src='/static/imgs/selected.jpg')
                 img(v-else src='/static/imgs/unselect.jpg')
                 span {{item.label}}
 
-            div(v-if='plus_show' style="margin-top:20px;") 有什么好的建议或想法？
-                textarea(placeholder='选填' style='border:1px solid #ccc;height:90px;')
+            //- div(v-if='plus_show' style="margin-top:20px;") 有什么好的建议或想法？
+            //-     textarea(placeholder='选填' style='border:1px solid #ccc;height:90px;')
     button.qs_btn(
         @click='btn_click'
         :disabled="disabled"
@@ -68,70 +69,270 @@ export default {
     },
     methods: {
         getData() {
-            this.questions = [{
-                    "title": "是否赞成召开技术晨会？",
-                    "option": [{
-                            "label": "赞成",
-                            "select": false
-                        },
-                        {
-                            "label": "不赞成",
-                            "select": false
-                        }
-                    ]
-                },
+            // this.questions = [
+            //     {
+            //         "title": "UI",
+            //         "option": [{
+            //                 "label": "凡文娟",
+            //                 "select": false,
+            //                 vote_number:2,
+            //             },
+            //             {
+            //                 "label": "韩文杰",
+            //                 "select": false,
+            //                 vote_number:3,
+            //             }
+            //         ],
+            //         limit_number:1,
+            //     },{
+            //         "title": "前端",
+            //         "option": [
+            //             {
+            //                 "label": "王剑飞",
+            //                 "select": false,
+            //                 vote_number:3,
+            //             },
+            //             {
+            //                 "label": "李鹏",
+            //                 "select": false,
+            //                 vote_number:3,
+            //             },
+            //             {
+            //                 "label": "吴明昊",
+            //                 "select": false,
+            //                 vote_number:2,
+            //             },
+            //             {
+            //                 "label": "郝丕煜",
+            //                 "select": false,
+            //                 vote_number:1,
+            //             },
+            //             {
+            //                 "label": "楚士通",
+            //                 "select": false,
+            //                 vote_number:5,
+            //             }
+            //         ],
+            //         limit_number:2,
+            //     }
+            // ]
+
+            this.questions = [
                 {
-                    "title": "晨会建议开始的时间？",
-                    "option": [{
-                            "label": "九点半",
-                            "select": false
+                    "title": "UI",
+                    "option": [
+                        {
+                            "label": "凡文娟",
+                            "select": false,
+                            vote_number:0,
                         },
                         {
-                            "label": "十点",
-                            "select": false
-                        },
-                        {
-                            "label": "十点半",
-                            "select": false
+                            "label": "韩文杰",
+                            "select": false,
+                            vote_number:0,
                         }
-                    ]
+                    ],
+                    limit_number:1,
+                },{
+                    "title": "产品",
+                    "option": [
+                        {
+                            "label": "何建斌",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "孟明华",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "李琦",
+                            "select": false,
+                            vote_number:0,
+                        }
+                    ],
+                    limit_number:1,
+                },{
+                    "title": "ios",
+                    "option": [
+                        {
+                            "label": "张安东",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "张朝阳",
+                            "select": false,
+                            vote_number:0,
+                        }
+                    ],
+                    limit_number:1,
+                },{
+                    "title": "android",
+                    "option": [
+                        {
+                            "label": "宁杉",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "王飞",
+                            "select": false,
+                            vote_number:0,
+                        }
+                    ],
+                    limit_number:1,
+                },{
+                    "title": "前端",
+                    "option": [
+                        {
+                            "label": "李鹏",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "王剑飞",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "吴明昊",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "郝丕煜",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "楚士通",
+                            "select": false,
+                            vote_number:0,
+                        }
+                    ],
+                    limit_number:2,
+                },{
+                    "title": "测试",
+                    "option": [
+                        {
+                            "label": "王海超",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "高亚超",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "苏日",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "常超",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "张威",
+                            "select": false,
+                            vote_number:0,
+                        }
+                    ],
+                    limit_number:2,
+                },{
+                    "title": "后端",
+                    "option": [
+                        {
+                            "label": "李定宇",
+                            "select": false,
+                            vote_number:0,
+                        },{
+                            "label": "田海宁",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "马贺伟",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "程森",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "冻小宏",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "张迪",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "张彪",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "高义强",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "张钰潇",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "普乾晟",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "陈鹏飞",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "吴晨旭",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "李亚洲",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "李银峰",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "白长健",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "陈涛",
+                            "select": false,
+                            vote_number:0,
+                        },
+                        {
+                            "label": "吴晨旭",
+                            "select": false,
+                            vote_number:0,
+                        }
+                    ],
+                    limit_number:8,
                 },
-                {
-                    "title": "所属技术开发组",
-                    "option": [{
-                            "label": "前端",
-                            "select": false
-                        },
-                        {
-                            "label": "后端",
-                            "select": false
-                        },
-                        {
-                            "label": "app",
-                            "select": false
-                        },
-                        {
-                            "label": "测试",
-                            "select": false
-                        },
-                        {
-                            "label": "运维",
-                            "select": false
-                        }
-                    ]
-                },
-                {
-                    "title": "是否匿名？",
-                    "option": [{
-                            "label": "是",
-                            "select": false
-                        },
-                        {
-                            "label": "否",
-                            "select": false
-                        }
-                    ]
-                }
             ]
         },
         btn_click() {
@@ -170,6 +371,18 @@ export default {
             // 将点击的选项选中
             option[index].select = !option[index].select
         },
+        selectCheckbox(index) {
+            const option = this.questions[this.currentIndex].option
+
+            // 将点击的选项选中
+            option[index].select = !option[index].select
+            // 计票数增减
+            if(option[index].select){
+                option[index].vote_number++
+            }else{
+                option[index].vote_number--
+            }
+        },
         getSelectOption() {
             const option = this.questions[this.currentIndex].option
             let label = ''
@@ -183,9 +396,41 @@ export default {
             // 存储对应成员答题情况，
 
             // 跳转结果展示页面
-            wx.navigateTo({
-                url: `../result/main?lesson=${this.lesson}`,
+            // wx.navigateTo({
+            //     url: `../result/main?lesson=${this.lesson}`,
+            // })
+            // console.log(this.lesson)
+
+            // 处理结果
+            const questions = this.questions
+            // 重置选中状态
+            questions.forEach((item,index)=>{
+                item.option.forEach((cItem,cIndex)=>{
+                    // console.log(this.questions[index])
+                    // console.log(this.questions[index].option[cIndex])
+                    this.questions[index].option[cIndex].select = false
+                })
             })
+
+            // 保存结果
+            var saveResult = this.questions;
+
+            // 展示结果,按部门内部排序
+             saveResult.forEach((item,index)=>{
+                saveResult[index].option.sort((a,b)=>{
+                    return b.vote_number - a.vote_number
+                })
+            })
+            var showResult = encodeURI(JSON.stringify((this.questions)));
+
+            // console.log('+++++++++saveResult:',saveResult)
+            // console.log('+++++++++showResult:',showResult)
+
+            // 跳转结果展示页面
+            wx.navigateTo({
+                url: `../result/main?lesson=${showResult}`,
+            })
+
         }
     }
 }

@@ -8,8 +8,13 @@
             .lesson_all 
                 span 统计结果
                 span.look_all 分类
-            div(v-for='(item,index) in hotLessons' :key='index')
-                lesson-cell(:img='item.img' :title='item.title' :level='item.level' :count='item.count' :url='item.url')
+            //- div(v-for='(item,index) in hotLessons' :key='index')
+            //-     lesson-cell(:img='item.img' :title='item.title' :level='item.level' :count='item.count' :url='item.url')
+            div(v-for='(item,index) in hotLessons' :key='index' style='margin:0 0 20rpx 20rpx;')
+              h3 {{item.title}}：
+              div(v-for='(citem,cindex) in item.option' :key='cindex')
+                p {{citem.label}}
+                  | ({{citem.vote_number}}票)
 </template>
 
 <script>
@@ -80,25 +85,27 @@ export default {
     onLoad(option){
         // console.log(option)
         // console.log(this.$store.state.user)
-        let item = option.lesson.split(','),
-            level = item[0],
-            count = item[1],
-            url = item[2],
+        // let item = option.lesson.split(','),
+        //     level = item[0],
+        //     count = item[1],
+        //     url = item[2],
 
-            user = this.$store.state.user,
-            img = user.avatarUrl,
-            title = user.nickName,
+        //     user = this.$store.state.user,
+        //     img = user.avatarUrl,
+        //     title = user.nickName,
 
-            hotlesson = {
-                img,
-                title,
-                level,
-                count,
-                url,
-            }
+        //     hotlesson = {
+        //         img,
+        //         title,
+        //         level,
+        //         count,
+        //         url,
+        //     }
             
-        this.hotLessons.unshift(hotlesson)
+        // this.hotLessons.unshift(hotlesson)
 
+        // console.log(JSON.parse(decodeURIComponent(option.lesson)))
+        this.hotLessons = JSON.parse(decodeURIComponent(option.lesson));
     },
     components:{
         lessonCell,
