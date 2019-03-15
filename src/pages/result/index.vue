@@ -125,11 +125,10 @@ export default {
         // 调用保存结果接口
         this.$https.request({
           url: this.$interfaces.saveOkrTeamWithVote,
-          method: 'post',
           data: {
             params:JSON.stringify({
               nickName:title,
-              OkrTeamWithVote:this.hotLessons,
+              okrTeamWithVote:this.hotLessons,
             })
           },
         })

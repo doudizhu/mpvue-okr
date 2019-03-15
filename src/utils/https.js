@@ -17,7 +17,7 @@ const https = {
                 url,
                 data,
                 header,
-                method,
+                method:method || 'post',
                 success(res){
                     wx.hideLoading()
                     
