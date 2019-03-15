@@ -1,8 +1,11 @@
 <template lang="pug">
     scroll-view.learn(scroll-y)
-        .start_lesson
-            navigator(url='../question/main')
-                button 重新提交
+        //- .start_lesson
+        //-     navigator(url='../question/main')
+        //-         button 重新提交
+
+        .hot_lesson
+          vote-person-cell(:img='votePerson.img' :title='votePerson.title' :level='votePerson.level' :count='votePerson.count' :url='votePerson.url')
                 
         .hot_lesson
             .lesson_all 
@@ -19,9 +22,11 @@
 
 <script>
 import lessonCell from '../../components/lessonCell/index'
+import votePersonCell from '../../components/votePersonCell/index'
 export default {
     data(){
         return {
+            votePerson:[],
             hotLessons: [
                 {
                     "img":"/static/imgs/lesson/avatar_1091.jpg",
@@ -106,9 +111,20 @@ export default {
 
         // console.log(JSON.parse(decodeURIComponent(option.lesson)))
         this.hotLessons = JSON.parse(decodeURIComponent(option.lesson));
+        let user = this.$store.state.user,
+            img = user.avatarUrl,
+            title = user.nickName;
+        this.votePerson = {
+          img,
+          title,
+          level:'',
+          count:'',
+          url:'',
+        }
     },
     components:{
         lessonCell,
+        votePersonCell,
     },
 }
 </script>

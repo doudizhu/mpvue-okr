@@ -5,7 +5,7 @@
         div(v-if='!startqs')
             p.title 温馨提示
             p 《更愿意和谁一个team》
-            .warn_tag 为了更好对的制定工作计划，提高大家的协作效率，请回答以下问题
+            .warn_tag 为了更好的制定工作计划，提高大家的协作效率，请回答以下问题（部分为多选）
         div(v-else)
             p.title {{questions[currentIndex].title}} (选{{questions[currentIndex].limit_number}}人,共{{questions[currentIndex].option.length}}人)
             .response(
@@ -339,7 +339,7 @@ export default {
             // 开始答题
             if (!this.startqs) {
                 this.startqs = true
-                this.btn_title = '下一题'
+                this.btn_title = '下一组'
             }
             // 答题中
             else {
