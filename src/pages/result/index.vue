@@ -27,64 +27,7 @@ export default {
     data(){
         return {
             votePerson:[],
-            hotLessons: [
-                {
-                    "img":"/static/imgs/lesson/avatar_1091.jpg",
-                    "title":"张迪",
-                    "level":"赞成",
-                    "count":"九点半",
-                    "url":"后端"
-                },
-                // {
-                //     "img":"/static/imgs/lesson/avatar_1089.jpg",
-                //     "title":"王剑飞",
-                //     "level":"不赞成",
-                //     "count":"十点半",
-                //     "url":"前端"
-                // },
-                {
-                    "img":"/static/imgs/lesson/avatar_1090.jpg",
-                    "title":"刘广睿",
-                    "level":"不赞成",
-                    "count":"十点半",
-                    "url":"数据"
-                },
-                {
-                    "img":"/static/imgs/lesson/avatar_1092.jpg",
-                    "title":"王海超",
-                    "level":"赞成",
-                    "count":"十点",
-                    "url":"测试"
-                },
-                {
-                    "img":"/static/imgs/lesson/avatar_1096.jpg",
-                    "title":"王楠",
-                    "level":"赞成",
-                    "count":"十点",
-                    "url":"运维"
-                },
-                {
-                    "img":"/static/imgs/lesson/avatar_1095.jpg",
-                    "title":"李鹏",
-                    "level":"赞成",
-                    "count":"九点半",
-                    "url":"前端"
-                },
-                {
-                    "img":"/static/imgs/lesson/avatar_1094.jpg",
-                    "title":"张安东",
-                    "level":"赞成",
-                    "count":"十点",
-                    "url":"app"
-                },
-                {
-                    "img":"/static/imgs/lesson/avatar_1093.jpg",
-                    "title":"宁杉",
-                    "level":"赞成",
-                    "count":"九点半",
-                    "url":"app"
-                }
-            ],
+            hotLessons:[],
         }
     },
     onLoad(option){
@@ -110,7 +53,7 @@ export default {
         // this.hotLessons.unshift(hotlesson)
 
         // console.log(JSON.parse(decodeURIComponent(option.lesson)))
-        this.hotLessons = JSON.parse(decodeURIComponent(option.lesson));
+        // 0.用户信息展示模块
         let user = this.$store.state.user,
             img = user.avatarUrl,
             title = user.nickName;
@@ -122,9 +65,11 @@ export default {
           url:'',
         }
 
-        // 调用保存结果接口
+        // 1.调用保存结果接口
+        this.hotLessons = JSON.parse(decodeURIComponent(option.lesson));
         this.$https.request({
           url: this.$interfaces.saveOkrTeamWithVote,
+          method:'get',
           data: {
             params:JSON.stringify({
               nickName:title,
@@ -134,6 +79,23 @@ export default {
         })
         .then(res => {
           console.log(res)
+          // 1.统计，融合数组
+          var result = res.list.reduce(function (previousValue,currentValue,currentIndex) {
+              previousValue.forEach(function(item,index){
+                  item.option.forEach(function(cItem,cIndex){
+                      previousValue[index].option[cIndex].vote_number += currentValue[index].option[cIndex].vote_number
+                  })
+              })
+              return previousValue
+          })
+          // 2.排序，按部门内部
+          result.forEach((item,index)=>{
+              result[index].option.sort((a,b)=>{
+                  return b.vote_number - a.vote_number
+              })
+          })
+          // 3.展示结果，赋值
+          this.hotLessons = result;
         })
         .catch(err => console.log(err))
     },

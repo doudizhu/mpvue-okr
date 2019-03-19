@@ -51,6 +51,10 @@ export default {
         this.lesson = ''
 
         this.plus_show = true
+
+
+        // 防止点击返回，到页面重叠提交
+        this.getData();
     },
     computed: {
         disabled() {
@@ -69,54 +73,6 @@ export default {
     },
     methods: {
         getData() {
-            // this.questions = [
-            //     {
-            //         "title": "UI",
-            //         "option": [{
-            //                 "label": "凡文娟",
-            //                 "select": false,
-            //                 vote_number:2,
-            //             },
-            //             {
-            //                 "label": "韩文杰",
-            //                 "select": false,
-            //                 vote_number:3,
-            //             }
-            //         ],
-            //         limit_number:1,
-            //     },{
-            //         "title": "前端",
-            //         "option": [
-            //             {
-            //                 "label": "王剑飞",
-            //                 "select": false,
-            //                 vote_number:3,
-            //             },
-            //             {
-            //                 "label": "李鹏",
-            //                 "select": false,
-            //                 vote_number:3,
-            //             },
-            //             {
-            //                 "label": "吴明昊",
-            //                 "select": false,
-            //                 vote_number:2,
-            //             },
-            //             {
-            //                 "label": "郝丕煜",
-            //                 "select": false,
-            //                 vote_number:1,
-            //             },
-            //             {
-            //                 "label": "楚士通",
-            //                 "select": false,
-            //                 vote_number:5,
-            //             }
-            //         ],
-            //         limit_number:2,
-            //     }
-            // ]
-
             this.questions = [
                 {
                     "title": "UI",
@@ -247,10 +203,6 @@ export default {
                     "title": "后端",
                     "option": [
                         {
-                            "label": "李定宇",
-                            "select": false,
-                            vote_number:0,
-                        },{
                             "label": "田海宁",
                             "select": false,
                             vote_number:0,
@@ -412,15 +364,15 @@ export default {
                 })
             })
 
-            // 保存结果
-            var saveResult = this.questions;
+            // // 保存结果
+            // var saveResult = this.questions;
 
-            // 展示结果,按部门内部排序
-             saveResult.forEach((item,index)=>{
-                saveResult[index].option.sort((a,b)=>{
-                    return b.vote_number - a.vote_number
-                })
-            })
+            // // 展示结果,按部门内部排序
+            //  saveResult.forEach((item,index)=>{
+            //     saveResult[index].option.sort((a,b)=>{
+            //         return b.vote_number - a.vote_number
+            //     })
+            // })
             var showResult = encodeURI(JSON.stringify((this.questions)));
 
             // console.log('+++++++++saveResult:',saveResult)
