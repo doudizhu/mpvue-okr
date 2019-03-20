@@ -4,7 +4,7 @@
     scroll-view.qs_content(v-if='questions.length > 0' scroll-y)
         div(v-if='!startqs')
             p.title 温馨提示
-            p 《更愿意和谁一个team》
+            p 《谁对你的帮助更大》
             .warn_tag 为了更好的制定工作计划，提高大家的协作效率，请回答以下问题（部分为多选）
         div(v-else)
             p.title {{questions[currentIndex].title}} (选{{questions[currentIndex].limit_number}}人,共{{questions[currentIndex].option.length}}人)

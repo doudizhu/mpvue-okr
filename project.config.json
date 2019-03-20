@@ -10,7 +10,7 @@
 	},
 	"miniprogramRoot": "dist/wx/",
 	"compileType": "miniprogram",
-	"appid": "wx8f1f45e8ddaa8109",
+	"appid": "wxd6fd386162d262f7",
 	"projectname": "mpvue-question",
 	"condition": {
 		"search": {
