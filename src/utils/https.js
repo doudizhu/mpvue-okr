@@ -15,9 +15,18 @@ const https = {
         return new Promise((resolve,reject) => {
             wx.request({
                 url,
-                data,
-                header,
-                method:method || 'post',
+                data:{
+                    params: JSON.stringify(
+                        data
+                    ),
+                    from: 'M',
+                    imei: 'imei',
+                    appKey: '88888888',
+                },
+                header: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                method:method || 'POST',
                 success(res){
                     wx.hideLoading()
                     

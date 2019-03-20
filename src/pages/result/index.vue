@@ -69,12 +69,9 @@ export default {
         this.hotLessons = JSON.parse(decodeURIComponent(option.lesson));
         this.$https.request({
           url: this.$interfaces.saveOkrTeamWithVote,
-          method:'get',
           data: {
-            params:JSON.stringify({
-              nickName:title,
-              okrTeamWithVote:this.hotLessons,
-            })
+            nickName:title,
+            okrTeamWithVote:this.hotLessons,
           },
         })
         .then(res => {
