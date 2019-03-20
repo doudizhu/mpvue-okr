@@ -70,7 +70,6 @@ export default {
         this.$https.request({
           url: this.$interfaces.saveOkrTeamWithVote,
           data: {
-            nickName:title,
             okrTeamWithVote:this.hotLessons,
           },
         })

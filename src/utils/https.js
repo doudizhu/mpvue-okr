@@ -19,7 +19,13 @@ const https = {
                 url,
                 data: method == 'post' ? {
                     params: JSON.stringify(
-                        data
+                        // 请求参数加入openid
+                        Object.assign(
+                            data,
+                            {
+                                openid:wx.getStorageSync('user').openid,
+                            }
+                        )
                     ),
                     from: 'M',
                     imei: 'imei',
