@@ -3,8 +3,10 @@ const https = {
         const {
             url,
             data,
-            header,
-            method,
+            header = {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },// post请求需要这条配置
+            method = 'post',
         } = options
 
         // 加载动画
@@ -15,18 +17,16 @@ const https = {
         return new Promise((resolve,reject) => {
             wx.request({
                 url,
-                data:{
+                data: method == 'post' ? {
                     params: JSON.stringify(
                         data
                     ),
                     from: 'M',
                     imei: 'imei',
                     appKey: '88888888',
-                },
-                header: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                },
-                method:method || 'POST',
+                } : data,
+                header,
+                method,
                 success(res){
                     wx.hideLoading()
                     
