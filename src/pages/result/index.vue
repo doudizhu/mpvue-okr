@@ -67,6 +67,8 @@ export default {
 
         // 1.调用保存结果接口
         this.hotLessons = JSON.parse(decodeURIComponent(option.lesson));
+        var requestStart = (new Date()).getTime()
+        console.log('requestStart',requestStart)
         this.$https.request({
           url: this.$interfaces.saveOkrTeamWithVote,
           data: {
@@ -76,6 +78,10 @@ export default {
         })
         .then(res => {
           console.log(res)
+          var start = +new Date().getTime()
+          console.log('requestEnd',start)
+          console.log('服务器响应+网络请求用时',(start-requestStart)+'ms')
+          console.log('computeStart：',start)
           // 1.统计，融合数组
           var result = res.list.reduce(function (previousValue,currentValue,currentIndex) {
               previousValue.forEach(function(item,index){
@@ -93,6 +99,10 @@ export default {
           })
           // 3.展示结果，赋值
           this.hotLessons = result;
+
+          var end = +new Date().getTime()
+          console.log('computeEnd',end)
+          console.log('本地计算用时：',(end - start) +'ms')
         })
         .catch(err => console.log(err))
     },
