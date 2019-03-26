@@ -17,7 +17,7 @@
               h3 {{item.title}}：
               div(v-for='(citem,cindex) in item.option' :key='cindex')
                 p {{citem.label}}
-                  | ({{citem.vote_number}}票)
+                  //- | ({{citem.vote_number}}票)
 </template>
 
 <script>
@@ -98,7 +98,16 @@ export default {
               })
           })
           // 3.展示结果，赋值
-          this.hotLessons = result;
+          // this.hotLessons = result;
+
+          // 4.截取限制数量
+          console.log('vote result:',result)
+          result.forEach((item,index)=>{
+            result[index].option = item.option.slice(0,item.limit_number)
+          })
+          console.log('vote result slice:',result)
+          this.hotLessons = result
+
 
           var end = +new Date().getTime()
           console.log('computeEnd',end)
